@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Form from './components/Form';
+import ContactForm from './components/ContactForm';
+import Filter from './components/Filter';
+import ContactList from './components/ContactList';
 
 class App extends Component {
     static defaultProps = {
@@ -8,6 +10,7 @@ class App extends Component {
         {id: 'id-2', name: 'Hermione Kline', number: '443-89-12', experience: 'middle'},
         {id: 'id-3', name: 'Eden Clements', number: '645-17-79', experience: 'junior'},
         {id: 'id-4', name: 'Annie Copeland', number: '227-91-26', experience: 'senior'},
+        {id: 'id-5', name: 'Ann', number: '227-91-46', experience: 'junior'},
       ],
     }
 
@@ -34,24 +37,24 @@ class App extends Component {
       })
     }
 
+    deleteContact = (id) => {
+      this.setState((prevState) => {
+        const withoutDelContactArray = prevState.contacts.filter(contact => contact.id !==id)
+        return {
+          contacts: [...withoutDelContactArray]
+        }
+      })
+    }
+
     render() {
       const { contacts, filter } = this.state;
-      const filteredContacts = contacts.filter(contact =>
-        Object.values(contact).some(val =>
-          val.toLowerCase().includes(filter)));
 
       return (<>
-        <Form onSubmit={this.formSubmitHandler}/>
-        <h1>Contacts</h1>
-        <input type="text" name="filter" value={filter} onChange={this.changeFilter} />
-        <ul>
-          {filteredContacts.map(({ id, name, number, experience }) =>
-            <li key={id}>
-              <span>{name}: </span>
-              <span>{number}, </span>
-              <span>{experience};</span>
-            </li>)}
-        </ul>
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
+        <h2>Contacts</h2>
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList contacts={contacts} filter={filter} deleteContact={this.deleteContact} />
         </>
         )
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default class Form extends Component {
+class ContactForm extends Component {
     static propTypes = {
         //
     }
@@ -23,8 +23,14 @@ export default class Form extends Component {
     }
 
     addContact = (event) => {
-      event.preventDefault();
-      const {name, number, experience } = this.state;
+        event.preventDefault();
+        const { name, number, experience } = this.state;
+
+        if(this.props.contacts.some(contact => contact.name===name || contact.number===number) ){
+          alert(`Contact with such ${name} or ${number} is already in Phonebook`);
+          return;
+        }
+
         this.props.onSubmit({
             id: uuidv4(),
             name: name,
@@ -45,11 +51,12 @@ export default class Form extends Component {
             name: '',
             number: '',
             experience: '',
+            licence: false,
         })
     }
 
     render() {
-        const {name, number } = this.state;
+        const {name, number, experience, licence } = this.state;
         return <form onSubmit={this.addContact}>
             <label htmlFor={this.nameInputID}>
                 Name
@@ -77,7 +84,9 @@ export default class Form extends Component {
                 Згоден з умовами угоди
             </label>
 
-            <button type="submit" disabled={!this.state.licence}>Add Contact</button>
+            <button type="submit" disabled={!licence || name==='' || number==='' || experience===''}>Add Contact</button>
         </form>
     }
 }
+
+export default ContactForm;
