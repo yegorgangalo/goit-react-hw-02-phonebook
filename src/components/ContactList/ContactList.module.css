@@ -1,0 +1,25 @@
+.contactList {
+  padding-left: 30px;
+}
+
+.item {
+  position: relative;
+  width: 100%;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.item span {
+  margin-right: 7px;
+}
+
+.item button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

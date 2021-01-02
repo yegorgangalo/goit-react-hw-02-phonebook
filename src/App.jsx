@@ -10,7 +10,8 @@ class App extends Component {
         {id: 'id-2', name: 'Hermione Kline', number: '443-89-12', experience: 'middle'},
         {id: 'id-3', name: 'Eden Clements', number: '645-17-79', experience: 'junior'},
         {id: 'id-4', name: 'Annie Copeland', number: '227-91-26', experience: 'senior'},
-        {id: 'id-5', name: 'Ann', number: '227-91-46', experience: 'junior'},
+        {id: 'id-5', name: 'Ann Hits', number: '227-91-46', experience: 'junior'},
+        {id: 'id-6', name: 'Ed Clirence', number: '217-01-46', experience: 'middle'},
       ],
     }
 
@@ -50,9 +51,9 @@ class App extends Component {
       const { contacts, filter } = this.state;
 
       return (<>
-        <h1>Phonebook</h1>
+        <h1 className="title">Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
-        <h2>Contacts</h2>
+        <h2 className="title">Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList contacts={contacts} filter={filter} deleteContact={this.deleteContact} />
         </>
