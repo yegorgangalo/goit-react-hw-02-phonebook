@@ -23,10 +23,34 @@ class ContactForm extends Component {
     nameInputID = uuidv4()
     numberInputID = uuidv4()
 
-    handleInputChange = ({ target }) => {
-      this.setState({
-        [target.name]: target.value
-      })
+    componentDidMount(){
+        window.addEventListener('keydown', this.handleInputChange);
+
+        /* щоб форма відправлялась при натисканні Enter лише на кнопку сабміт */
+        const form = document.querySelector('form');
+        form.addEventListener('keydown', (event) => {
+        const btnSubmit = form.querySelector('button[type="submit"]');
+        if(event.code === 'Enter' && event.target!==btnSubmit) {
+           event.preventDefault();
+        }
+ });
+    }
+
+    // componentWillUnmount() {//не відміняється не працює
+    //     window.removeEventListener('keydown', this.handleInputChange);
+    // }
+
+    handleInputChange = ({ target, code }) => {
+        const { name, value, type, checked } = target;
+        if (code === 'Enter') {
+            this.setState({
+                [name]: type === 'checkbox' ? !checked : value
+            });
+            return;
+        }
+        this.setState({
+            [name]: type === 'checkbox' ? checked : value
+        })
     }
 
     addContact = (event) => {
@@ -47,12 +71,6 @@ class ContactForm extends Component {
         this.reset();
     }
 
-    handleLicenceChange = ({target}) => {
-        this.setState({
-            licence: target.checked,
-        })
-    }
-
     reset = () => {
         this.setState({
             name: '',
@@ -63,7 +81,7 @@ class ContactForm extends Component {
     }
 
     render() {
-        const { handleInputChange, handleLicenceChange, addContact, nameInputID, numberInputID } = this;
+        const { handleInputChange, addContact, nameInputID, numberInputID } = this;
         const { name, number, experience, licence } = this.state;
 
         return <form onSubmit={addContact} className={s.contactForm} >
@@ -91,7 +109,7 @@ class ContactForm extends Component {
                 </label>
             </div>
             <label  className={s.labelBlock}>
-                <input type="checkbox"  className={s.inputBox} name="licence" value="" onChange={handleLicenceChange} checked={licence} />
+                <input type="checkbox"  className={s.inputBox} name="licence" onChange={handleInputChange} checked={licence} />
                 Agree with Licence
             </label>
 
