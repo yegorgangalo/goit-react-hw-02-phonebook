@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import s from './ContactList.module.css';
 
-class ContactList extends Component {
+class ContactList extends PureComponent {
     static propTypes = {
       deleteContact: PropTypes.func.isRequired,
       filter: PropTypes.string.isRequired,

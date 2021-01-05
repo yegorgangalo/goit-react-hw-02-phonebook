@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ContactForm from './components/ContactForm';
 import Filter from './components/Filter';
 import ContactList from './components/ContactList';
 
-class App extends Component {
+class App extends PureComponent {
     static defaultProps = {
       contacts: [
         {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56', experience: 'junior'},

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import s from './ContactForm.module.css';
 
-class ContactForm extends Component {
+class ContactForm extends PureComponent {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         contacts: PropTypes.arrayOf(
@@ -26,7 +26,7 @@ class ContactForm extends Component {
     componentDidMount(){
         window.addEventListener('keydown', this.handleInputChange);
 
-        /* щоб форма відправлялась при натисканні Enter лише на кнопку сабміт */
+        /* щоб форма відправлялась при натисканні Enter лише при фокусі на кнопці сабміт, а не при фокусі будь-де у формі */
         const form = document.querySelector('form');
         form.addEventListener('keydown', (event) => {
         const btnSubmit = form.querySelector('button[type="submit"]');
@@ -36,8 +36,12 @@ class ContactForm extends Component {
  });
     }
 
-    // componentWillUnmount() {//не відміняється не працює
+    // componentWillUnmount() {//не відміняється бо форма не розмонтовується
     //     window.removeEventListener('keydown', this.handleInputChange);
+    // }
+
+    // shouldComponentUpdate(nextProps, nextState) {//краще юзати PureComponent
+    //     return nextState.experience !== this.state.experience;
     // }
 
     handleInputChange = ({ target, code }) => {
@@ -81,6 +85,7 @@ class ContactForm extends Component {
     }
 
     render() {
+        // console.log(`re-render @ ${Date.now()}`);
         const { handleInputChange, addContact, nameInputID, numberInputID } = this;
         const { name, number, experience, licence } = this.state;
 
